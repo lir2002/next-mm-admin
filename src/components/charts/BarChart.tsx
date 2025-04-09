@@ -9,11 +9,10 @@ const BarChart = (props: any) => {
   const { chartData, chartOptions } = props;
 
   return (
-    // @ts-expect-error
     <Chart
       options={chartOptions}
       type="bar"
-      width="100%"
+      width="100%"  
       height="100%"
       series={chartData}
     />

@@ -52,6 +52,7 @@ import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 // Assets
 import Usa from 'img/dashboards/usa.png';
+import WalletConnect from 'components/walletConnect/WalletConnect';
 
 export default function Default() {
   // Chakra Color Mode
@@ -66,6 +67,7 @@ export default function Default() {
         gap="20px"
         mb="20px"
       >
+        <Box mb={2}><WalletConnect /></Box>
         <MiniStatistics
           startContent={
             <IconBox

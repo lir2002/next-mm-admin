@@ -6,6 +6,8 @@ import {
   MdLock,
   MdOutlineShoppingCart,
   MdProductionQuantityLimits,
+  MdMoney,
+  MdSwapHoriz,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -39,6 +41,18 @@ const routes: IRoute[] = [
       />
     ),
     secondary: true,
+  },
+  {
+    name: 'Coins',
+    layout: '/admin',
+    path: '/coins',
+    icon: <Icon as={MdMoney} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: "Bridge",
+    layout: "/admin",
+    path: "/bridge",
+    icon: <Icon as={MdSwapHoriz} />, // Icon for bridging
   },
   {
     name: 'Data Tables',

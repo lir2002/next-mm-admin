@@ -32,7 +32,8 @@
     "paths": {
       "@assets/*": [
         "./src/assetsassets/*"
-      ]
+      ],
+      "@/*": ["*"]
     },
     "incremental": true,
     "plugins": [
