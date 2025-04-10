@@ -4,29 +4,22 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic"; // Import dynamic
 import { ethers } from "ethers";
 import Card from "components/card/Card";
-import { Button, Stat, StatLabel, useToast, VStack } from "@chakra-ui/react";
+import { Button, Stat, StatLabel, useToast, VStack , Radio, RadioGroup, Stack,} from "@chakra-ui/react";
 
-interface TronWebInstance {
-  defaultAddress: { base58: string };
-  [key: string]: any;
-}
-
-declare global {
-  interface Window {
-    ethereum?: any; // Match existing type
-    tronLink?: any;
-    tronWeb?: TronWebInstance;
-  }
-}
 // Dynamically import WalletMultiButton with SSR disabled
 const WalletMultiButton = dynamic(
   () => import("@solana/wallet-adapter-react-ui").then((mod) => mod.WalletMultiButton),
   { ssr: false }
 );
 
-const WalletConnect: React.FC = () => {
+interface WalletConnectProps {
+  onWalletSelect: (wallet: 'metamask' | 'tronlink' | 'solana') => void;
+}
+
+const WalletConnect: React.FC<WalletConnectProps> = ({ onWalletSelect }) => {
   const [metaMaskAddress, setMetaMaskAddress] = useState<string | null>(null);
   const [tronAddress, setTronAddress] = useState<string | null>(null);
+  const [selectedWallet, setSelectedWallet] = useState<'metamask' | 'tronlink' | 'solana'>('metamask');
   const toast = useToast()
 
   const shortenAddress = (address: string | null, len: number): string => {
@@ -123,6 +116,12 @@ const WalletConnect: React.FC = () => {
     // connectSolana();
   }, []);
 
+  const handleWalletChange = (value: string) => {
+    const wallet = value as 'metamask' | 'tronlink' | 'solana';
+    setSelectedWallet(wallet);
+    onWalletSelect(wallet);
+  };
+
   return (
     <Card mb={20}>
       <Stat><StatLabel color='secondaryGray.600' fontSize={{base: 'md'}}>Wallet Integration</StatLabel></Stat>
@@ -152,6 +151,13 @@ const WalletConnect: React.FC = () => {
           {tronAddress ? "TronLink: "+shortenAddress(tronAddress, 7) : "Connect TronLink"}
         </Button>
         <WalletMultiButton />
+        <RadioGroup onChange={handleWalletChange} value={selectedWallet}>
+          <Stack direction="row" spacing={4}>
+            <Radio value="metamask">MetaMask</Radio>
+            <Radio value="tronlink">TronLink</Radio>
+            <Radio value="solana">Solana</Radio>
+          </Stack>
+        </RadioGroup>
       </VStack>
     </Card>
   );

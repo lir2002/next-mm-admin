@@ -12,7 +12,7 @@ interface WalletContextProviderProps {
 }
 
 const WalletContextProvider: FC<WalletContextProviderProps> = ({ children }) => {
-  const network = "devnet"; // Switch to "mainnet-beta" for production
+  const network = "mainnet-beta"; // "mainnet-beta" for production, "devnet" for  dev
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 
