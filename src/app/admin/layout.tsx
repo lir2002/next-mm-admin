@@ -18,6 +18,8 @@ import {
   getActiveNavbarText,
   getActiveRoute,
 } from 'utils/navigation';
+import { usePathname } from 'next/navigation';
+
 
 interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
@@ -29,8 +31,21 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
+  // New state variables to replace navigation utils
+  const [activeRoute, setActiveRoute] = useState<string>('');
+  const [activeNavbar, setActiveNavbar] = useState<boolean>(false);
+  const [activeNavbarText, setActiveNavbarText] = useState<string|boolean>('');
   // functions for changing the states from components
   const { onOpen } = useDisclosure();
+
+  const pathname = usePathname();
+
+  // useEffect to update states with navigation utils
+  useEffect(() => {
+    setActiveRoute(getActiveRoute(routes));
+    setActiveNavbar(getActiveNavbar(routes));
+    setActiveNavbarText(getActiveNavbarText(routes));
+  }, [pathname]); // Re-run when pathname changes
 
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
@@ -66,9 +81,9 @@ export default function AdminLayout(props: DashboardLayoutProps) {
               <Navbar
                 onOpen={onOpen}
                 logoText={'Horizon UI Dashboard PRO'}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
+                brandText={activeRoute} // Use state instead of getActiveRoute
+                secondary={activeNavbar} // Use state instead of getActiveNavbar
+                message={activeNavbarText} // Use state instead of getActiveNavbarText
                 fixed={fixed}
                 {...rest}
               />
